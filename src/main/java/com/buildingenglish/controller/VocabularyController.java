@@ -2,6 +2,7 @@ package com.buildingenglish.controller;
 
 import com.buildingenglish.dto.CardDTO;
 import com.buildingenglish.dto.VocabularyDTO;
+import com.buildingenglish.entity.VocabularyEntity;
 import com.buildingenglish.service.VocabularyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,11 @@ public class VocabularyController {
         return ResponseEntity.ok().body(vocabularyDTOList);
     }
 
+    @GetMapping("/random")
+    public ResponseEntity<List<VocabularyDTO>>getWordRandom(){
+        List<VocabularyDTO> vocabularyDTOList= vocabularyService.random();
+        return ResponseEntity.ok().body(vocabularyDTOList);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<VocabularyDTO> deleteVocabulary(@PathVariable String id){
         vocabularyService.deleteVocabulary(id);

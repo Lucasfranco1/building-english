@@ -2,9 +2,7 @@ package com.buildingenglish.service;
 
 
 import com.buildingenglish.dto.VocabularyDTO;
-import com.buildingenglish.entity.CardEntity;
 import com.buildingenglish.entity.VocabularyEntity;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -22,4 +20,6 @@ public interface VocabularyService {
     void deleteVocabulary(String id);
 
     VocabularyDTO getVocabularyDTOById(String id);
+
+    List<VocabularyDTO> random();
 }

@@ -9,6 +9,7 @@ import com.buildingenglish.repository.VocabularyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class VocabularyServiceImpl implements VocabularyService{
-
+    
     @Autowired
     private VocabularyRepository vocabularyRepository;
 
@@ -31,6 +32,7 @@ public class VocabularyServiceImpl implements VocabularyService{
     }
 
     @Override
+    @Transactional
     public VocabularyDTO saveVocabulary(VocabularyDTO vocabularyDTO) {
         VocabularyEntity vocabularyEntity= vocabularyMapper.vocabularyDTO2Entity(vocabularyDTO);
         VocabularyEntity vocabularySaved= vocabularyRepository.save(vocabularyEntity);
@@ -47,6 +49,7 @@ public class VocabularyServiceImpl implements VocabularyService{
     }
 
     @Override
+    @Transactional
     public VocabularyDTO updateVocabulary(String id, VocabularyDTO vocabularyDTO) {
         Optional<VocabularyEntity> vocabularyEntity = vocabularyRepository.findById(id);
         if (vocabularyEntity.isPresent()) {
@@ -64,6 +67,7 @@ public class VocabularyServiceImpl implements VocabularyService{
     }
 
     @Override
+    @Transactional
     public void deleteVocabulary(String id) {
         vocabularyRepository.deleteById(id);
     }
@@ -72,5 +76,14 @@ public class VocabularyServiceImpl implements VocabularyService{
     public VocabularyDTO getVocabularyDTOById(String id) {
         VocabularyEntity vocabularyEntity= this.getVocabularyById(id);
         return vocabularyMapper.vocabularyEntity2DTO(vocabularyEntity);
+    }
+    /*
+        random()= Bring random word
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<VocabularyDTO> random() {
+        List<VocabularyEntity> entities= vocabularyRepository.rand();
+        return vocabularyMapper.vocabularyEntityList2DTOList(entities);
     }
 }
