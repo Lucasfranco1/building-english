@@ -18,7 +18,7 @@ public class CardController {
     private CardService cardService;
 
     @PostMapping("/save")
-    public ResponseEntity<CardDTO> saveCard(@Validated @RequestBody CardDTO cardDTO){
+    public ResponseEntity<CardDTO> savePhraseInCard(@Validated @RequestBody CardDTO cardDTO){
         CardDTO savedCard= cardService.save(cardDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCard);
     }
@@ -26,6 +26,11 @@ public class CardController {
     @GetMapping("/all")
     public ResponseEntity<List<CardDTO>> getAllCards(){
         List<CardDTO>cardDTOList= cardService.getAllCards();
+        return ResponseEntity.ok().body(cardDTOList);
+    }
+    @GetMapping("/random")
+    public ResponseEntity<List<CardDTO>> getPhrasesRandom(){
+        List<CardDTO>cardDTOList= cardService.random();
         return ResponseEntity.ok().body(cardDTOList);
     }
 

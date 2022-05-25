@@ -22,4 +22,9 @@ public interface CardService {
 
     CardDTO getCardDTOById(String id);
 
+    /*
+       Method random() = bring random phrases
+     */
+    List<CardDTO> random();
+
 }

@@ -9,6 +9,7 @@ import com.buildingenglish.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,6 +39,7 @@ public class CardServiceImpl implements  CardService{
     }
 
     @Override
+    @Transactional
     public CardDTO save(CardDTO cardDTO) {
         CardEntity cardEntity= cardMapper.cardDTO2Entity(cardDTO);
         CardEntity cardSaved= cardRepository.save(cardEntity);
@@ -45,6 +47,7 @@ public class CardServiceImpl implements  CardService{
     }
 
     @Override
+    @Transactional
     public CardEntity getCardById(String id)  {
         Optional<CardEntity> cardEntity= cardRepository.findById(id);
         if(!cardEntity.isPresent()){
@@ -54,6 +57,7 @@ public class CardServiceImpl implements  CardService{
     }
 
     @Override
+    @Transactional
     public CardDTO update(String id, CardDTO cardDTO) {
         Optional<CardEntity> cardEntity = cardRepository.findById(id);
         if (cardEntity.isPresent()) {
@@ -69,6 +73,7 @@ public class CardServiceImpl implements  CardService{
     }
 
     @Override
+    @Transactional
     public void delete(String id) {
         cardRepository.deleteById(id);
     }
@@ -77,5 +82,12 @@ public class CardServiceImpl implements  CardService{
     public CardDTO getCardDTOById(String id) {
         CardEntity cardEntity= this.getCardById(id);
         return cardMapper.cardEntity2DTO(cardEntity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CardDTO> random() {
+        List<CardEntity>entities= cardRepository.rand();
+        return cardMapper.cardEntityList2DTOList(entities);
     }
 }
